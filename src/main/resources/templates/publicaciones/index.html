@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Gestión de Publicaciones</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+
+<body class="bg-primary bg-gradient bg-opacity-10">
+
+<div class="container py-5">
+
+    <!-- HEADER -->
+    <div class="text-center mb-4">
+        <h2 class="text-warning">📝 Administración de Publicaciones</h2>
+        <p class="text-muted">Crear y gestionar publicaciones</p>
+    </div>
+
+    <div class="card shadow-lg border-0 p-4">
+
+        <!-- FORM -->
+        <h4 class="mb-3"
+            th:text="${publicacion.idPublicacion == null} ? 'Crear Publicación' : 'Editar Publicación'">
+        </h4>
+
+        <form th:action="@{/publicaciones/guardar}"
+              th:object="${publicacion}"
+              method="post"
+              class="row g-3">
+
+            <input type="hidden" th:field="*{idPublicacion}">
+
+            <div class="col-md-6">
+                <label class="form-label">Título</label>
+                <input class="form-control" th:field="*{titulo}">
+                <div class="text-danger" th:errors="*{titulo}"></div>
+            </div>
+
+            <div class="col-md-6">
+                <label class="form-label">Fecha Publicación</label>
+                <input type="date"
+                       class="form-control"
+                       th:field="*{fechaPublicacion}">
+                <div class="text-danger" th:errors="*{fechaPublicacion}"></div>
+            </div>
+
+            <div class="col-12">
+                <label class="form-label">Contenido</label>
+                <textarea class="form-control"
+                          rows="3"
+                          th:field="*{contenido}"></textarea>
+                <div class="text-danger" th:errors="*{contenido}"></div>
+            </div>
+
+            <!-- SELECT USUARIO -->
+            <div class="col-md-6">
+                <label class="form-label">Usuario que registra</label>
+
+                <select class="form-select"
+                        th:field="*{usuario.idUsuario}">
+                    <option value="">Seleccione usuario</option>
+
+                    <option th:each="u : ${usuarios}"
+                            th:value="${u.idUsuario}"
+                            th:text="${u.nombre}">
+                    </option>
+                </select>
+            </div>
+
+            <div class="col-12">
+
+                <button class="btn btn-warning text-white">
+                    <span th:text="${publicacion.idPublicacion == null} ? 'Crear' : 'Actualizar'"></span>
+                </button>
+
+                <a href="/publicaciones" class="btn btn-secondary ms-2">
+                    Limpiar
+                </a>
+
+                <a href="/" class="btn btn-outline-primary ms-2">
+                    Volver al Panel
+                </a>
+
+            </div>
+
+        </form>
+
+        <hr class="my-4">
+
+        <!-- TABLA -->
+        <h4 class="mb-3 text-warning">Lista de Publicaciones</h4>
+
+        <div class="table-responsive">
+            <table class="table table-hover align-middle">
+
+                <thead class="table-warning">
+                <tr>
+                    <th>ID</th>
+                    <th>Título</th>
+                    <th>Contenido</th>
+                    <th>Fecha</th>
+                    <th>Usuario</th>
+                    <th width="180">Acciones</th>
+                </tr>
+                </thead>
+
+                <tbody>
+
+                <tr th:each="p : ${publicaciones}">
+                    <td th:text="${p.idPublicacion}"></td>
+                    <td th:text="${p.titulo}"></td>
+                    <td th:text="${p.contenido}"></td>
+                    <td th:text="${p.fechaPublicacion}"></td>
+                    <td th:text="${p.usuario != null ? p.usuario.nombre : '—'}"></td>
+
+                    <td>
+
+                        <a th:href="@{/publicaciones/editar/{id}(id=${p.idPublicacion})}"
+                           class="btn btn-sm btn-warning">
+                            Editar
+                        </a>
+
+                        <a href="#"
+                           th:onclick="'confirmarEliminar(' + ${p.idPublicacion} + ')'"
+                           class="btn btn-sm btn-danger">
+                            Eliminar
+                        </a>
+
+                    </td>
+                </tr>
+
+                </tbody>
+            </table>
+        </div>
+
+    </div>
+
+</div>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script>
+    function confirmarEliminar(id) {
+        Swal.fire({
+            title: '¿Eliminar publicacion?',
+            text: 'Esta acción no se puede deshacer',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#d33',
+            cancelButtonColor: '#6c757d',
+            confirmButtonText: 'Sí, eliminar',
+            cancelButtonText: 'Cancelar'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                window.location.href = '/publicaciones/eliminar/' + id;
+            }
+        });
+    }
+</script>
+
+</body>
+</html>

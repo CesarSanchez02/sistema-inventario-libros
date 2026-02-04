@@ -1,0 +1,9 @@
+package sistemaLibros.sistemaLibros.repository;
+
+import org.springframework.data.jpa.repository.JpaRepository;
+import sistemaLibros.sistemaLibros.model.Usuario;
+
+public interface UsuarioRepository extends JpaRepository<Usuario, Integer> {
+    boolean existsByEmail(String email);
+
+}
