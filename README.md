@@ -80,7 +80,11 @@ panel.html
 
 Puedes descargar el archivo directamente desde GitHub:
 
-Ve a la carpeta database/ en el repositorio
+Ve a la carpeta dentro del repositorio
+```bash
+database/
+```
+
 
 Click en:
 ```bash
