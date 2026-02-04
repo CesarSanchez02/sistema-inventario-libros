@@ -64,14 +64,15 @@ UsuarioRepository
 PublicacionesRepository
 
 service/
-IUsuarioService
 IPublicacionesService
-impl/
+IUsuarioService
+PublicacionesServiceImpl
+UsuarioServiceImpl
 
 templates/
 usuarios/index.html
 publicaciones/index.html
-panel.html
+dashboard.html
 ```
 
 **Cómo ejecutar**
