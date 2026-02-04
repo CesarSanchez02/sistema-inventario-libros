@@ -18,7 +18,6 @@
 
     <div class="card shadow-lg border-0 p-4">
 
-        <!-- FORM -->
         <h4 class="mb-3"
             th:text="${publicacion.idPublicacion == null} ? 'Crear Publicación' : 'Editar Publicación'">
         </h4>
@@ -52,7 +51,6 @@
                 <div class="text-danger" th:errors="*{contenido}"></div>
             </div>
 
-            <!-- SELECT USUARIO -->
             <div class="col-md-6">
                 <label class="form-label">Usuario que registra</label>
 
